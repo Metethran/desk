@@ -214,6 +214,12 @@
     return "Idle";
   }
 
+  function riskStopPill() {
+    const risk = store.settings && store.settings.grouped && store.settings.grouped.risk;
+    if (!risk || risk.stop_pct == null) return "";
+    return '<span class="pill">stop ' + esc(formatSetting("risk", "stop_pct", risk.stop_pct)) + '</span>';
+  }
+
   function renderAgents() {
     const cards = ((store.state && store.state.agents) || AGENT_ORDER.map((name) => ({ name, status: "idle" })));
     const byName = {};
@@ -227,7 +233,7 @@
             <div class="agent-name ${esc(name)}">${esc(titleCase(name))}</div>
             <div class="status ${esc(rec.status || "idle")}">${esc(rec.status || "idle")}</div>
           </div>
-          <div class="agent-body">${esc(agentBlurb(name, rec))}${ring}</div>
+          <div class="agent-body">${esc(agentBlurb(name, rec))}${ring}${name === "risk" ? riskStopPill() : ""}</div>
           <div class="agent-foot">${rec.heartbeat ? "Last beat " + esc(relTime(rec.heartbeat)) : "No heartbeat yet"}</div>
         </button>`;
     }).join("");
