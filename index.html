@@ -1,32 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="theme-color" content="#000000" />
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="app.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#000000">
   <title>Grok Bot</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="app.css">
 </head>
 <body>
-  <div id="app">
-    <header class="navbar">
-      <button class="avatar" aria-label="Account" data-tab="account"></button>
-      <div class="title">Grok Bot ›</div>
-      <button class="icon-btn" aria-label="Search"></button>
-      <button class="icon-btn bell" aria-label="Notifications"></button>
-    </header>
-    <main id="screen"></main>
-    <nav class="tabbar">
-      <button data-tab="home">Home</button>
-      <button data-tab="agents">Agents</button>
-      <button data-tab="activity">Activity</button>
-      <button data-tab="account">Account</button>
-    </nav>
-  </div>
+  <header class="navbar" id="navbar">
+    <button type="button" class="nav-btn avatar" id="nav-account" aria-label="Account"></button>
+    <div class="nav-title" id="nav-title">Grok Bot <span class="chev">›</span></div>
+    <button type="button" class="nav-btn" id="nav-search" aria-label="Search">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 16.5L20 20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <button type="button" class="nav-btn" id="nav-bell" aria-label="Activity">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 4a5.5 5.5 0 0 0-5.5 5.5v2.2c0 .7-.3 1.4-.8 1.9L5 14.4h14l-.7-.8c-.5-.5-.8-1.2-.8-1.9V9.5A5.5 5.5 0 0 0 12 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 17.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+  <main id="screen"></main>
+  <nav class="tabbar" id="tabbar">
+    <button type="button" data-tab="home" class="tab on">Home</button>
+    <button type="button" data-tab="agents" class="tab">Agents</button>
+    <button type="button" data-tab="activity" class="tab">Activity</button>
+    <button type="button" data-tab="account" class="tab">Account</button>
+  </nav>
+  <div id="toast" class="toast" hidden></div>
   <script src="chart.js"></script>
   <script src="app.js"></script>
 </body>
