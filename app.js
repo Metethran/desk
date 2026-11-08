@@ -256,16 +256,42 @@
       </section>`;
   }
 
+  function formatSetting(group, key, value) {
+    if (group === "risk" && key === "stop_pct") return "-" + Number(value) + "%";
+    if (key.endsWith("_pct")) return Number(value) + "%";
+    if (key.endsWith("_usd") || key.indexOf("stack") >= 0) return money(value);
+    if (typeof value === "boolean") return value ? "on" : "off";
+    return value;
+  }
+
   function renderAccount() {
     const ac = store.account || {};
     const grouped = (store.settings && store.settings.grouped) || {};
+    const ranges = (store.settings && store.settings.ranges) || {};
     const mode = String(ac.mode || "PAPER").toUpperCase();
-    const groups = Object.keys(grouped).map((group) => {
-      const rows = Object.keys(grouped[group]).map((key) => `
-        <div class="setting ro">
-          <div class="setting-k">${esc(key.replace(/_/g, " "))}</div>
-          <div class="setting-v">${esc(grouped[group][key])}</div>
-        </div>`).join("");
+    const order = ["desk", "scanner", "auditor", "analyst", "executor", "risk"];
+    const names = order.filter((name) => grouped[name]).concat(Object.keys(grouped).filter((name) => order.indexOf(name) < 0));
+    const groups = names.map((group) => {
+      const rows = Object.keys(grouped[group]).map((key) => {
+        const full = group + "." + key;
+        const range = ranges[full];
+        const shown = formatSetting(group, key, grouped[group][key]);
+        const slider = range
+          ? `<input type="range" min="${range.min}" max="${range.max}" step="any" value="${esc(grouped[group][key])}" disabled>`
+          : "";
+        const number = range
+          ? `<input class="setting-num" type="number" min="${range.min}" max="${range.max}" value="${esc(grouped[group][key])}" disabled>`
+          : `<div class="setting-v">${esc(shown)}</div>`;
+        return `
+        <div class="setting ro ${range ? "slider-row" : ""}">
+          <div class="setting-head">
+            <div class="setting-k">${esc(key.replace(/_/g, " "))}</div>
+            ${range ? `<div class="setting-v">${esc(shown)}</div>` : number}
+          </div>
+          ${slider}
+          ${range ? number : ""}
+        </div>`;
+      }).join("");
       return `<div class="group">${esc(group)}</div>${rows}`;
     }).join("");
     const profile = ac.profile_url
@@ -288,7 +314,8 @@
           <div class="setting-k">Stack</div>
           <div class="setting-v">${esc(money(ac.stack))}</div>
         </div>
-        <p class="muted">Mode and settings are read-only here. Change them in this Grok Bot chat.</p>
+        ${ac.ticket_check ? `<div class="banner warn">${esc(ac.ticket_check)}</div>` : ""}
+        <p class="muted">Mode and settings are read-only here. Change them in this Grok Bot chat, like set stop to -8%.</p>
         ${profile}${invite}
         <div class="group">Auditor</div>
         <div class="toggle-row" disabled>

@@ -86,6 +86,7 @@ a { color: var(--blue); text-decoration: none; }
 }
 .banner.error { background: rgba(255, 69, 58, 0.14); color: #ff8a84; }
 .banner.empty { text-align: center; padding: 28px 16px; color: var(--sec); }
+.banner.warn { background: rgba(255, 159, 10, 0.16); color: #ffd60a; margin: 8px 0 12px; }
 
 .home-head { padding-top: 8px; }
 .meta-row { display: flex; align-items: center; gap: 8px; min-height: 44px; flex-wrap: wrap; }
@@ -268,3 +269,18 @@ h2.section {
   border-radius: 12px; font-size: 15px; z-index: 40;
 }
 .toast[hidden] { display: none; }
+
+.slider-row { flex-direction: column; align-items: stretch; gap: 10px; }
+.setting-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.slider-row input[type=range] { width: 100%; accent-color: #0a84ff; height: 24px; }
+.setting-num {
+  width: 96px;
+  align-self: flex-end;
+  background: #2c2c2e;
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 15px;
+  text-align: right;
+}
